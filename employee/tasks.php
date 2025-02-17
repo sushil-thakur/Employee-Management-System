@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare("UPDATE Tasks SET Status = ? WHERE TaskID = ?");
     $stmt->execute([$status, $taskID]);
 
-    header('Location: tasks.php');
+    // Redirect to Employee Dashboard after updating
+    header('Location: dashboard.php');
     exit();
 }
 ?>

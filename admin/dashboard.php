@@ -5,11 +5,17 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'Admin') {
     exit();
 }
 include '../includes/db.php';
+
 // Fetch all employees
 $stmt = $conn->query("SELECT * FROM Users WHERE Role = 'Employee'");
 $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// Fetch all tasks
-$stmt = $conn->query("SELECT * FROM Tasks");
+
+// Fetch all tasks with employee names
+$stmt = $conn->query("
+    SELECT Tasks.TaskID, Tasks.Title, Tasks.Description, Tasks.Status, Tasks.Deadline, Users.Username 
+    FROM Tasks 
+    INNER JOIN Users ON Tasks.AssignedTo = Users.UserID
+");
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -227,7 +233,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="add_employee.php" class="btn-primary">Add Employee</a>
             <a href="manage_tasks.php" class="btn-primary">Manage Tasks</a>
             <a href="assign_task.php" class="btn-primary">Assign Task</a>
-            <a href="../../logout.php" class="btn-danger">Logout</a>
+            <a href="../logout.php" class="btn-danger">Logout</a>
         </nav>
         <!-- Display Employees -->
         <section class="animated fadeInUp">
@@ -271,7 +277,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <td><?php echo $task['TaskID']; ?></td>
                             <td><?php echo $task['Title']; ?></td>
-                            <td><?php echo $task['AssignedTo']; ?></td>
+                            <td><?php echo $task['Username']; ?></td> <!-- Display employee name -->
                             <td><?php echo $task['Status']; ?></td>
                             <td><?php echo $task['Deadline']; ?></td>
                         </tr>
