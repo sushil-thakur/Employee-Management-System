@@ -39,101 +39,155 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mark_all_read'])) {
     <link rel="stylesheet" href="../../assets/css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Notification Icon */
+      /* Base styles */
+:root {
+    --primary-blue: #0066cc;
+    --light-blue: #e6f3ff;
+    --hover-blue: #0052a3;
+    --text-dark: #333333;
+    --border-color: #d1e3ff;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-blue);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+th {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+tr:hover {
+    background-color: var(--light-blue);
+}
+
+/* Headings */
+h1, h2 {
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+}
+
+/* Notification styles update */
 .notification-icon {
-    position: relative;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: #667eea;
-    margin-left: auto;
-    margin-right: 1rem;
+    color: var(--primary-blue);
 }
 
-.notification-count {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #ff4d4d;
-    color: #fff;
-    border-radius: 50%;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-}
-
-/* Notification Dropdown */
 .notification-dropdown {
-    display: none;
-    position: fixed;
-    top: 70px;
-    right: 20px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    max-height: 400px;
-    overflow-y: auto;
-    z-index: 1000;
+    background: white;
+    border-color: var(--border-color);
 }
 
 .notification-dropdown h3 {
-    padding: 1rem;
-    margin: 0;
-    background: #667eea;
-    color: #fff;
-    border-radius: 10px 10px 0 0;
-}
-
-.notification-dropdown ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.notification-dropdown li {
-    padding: 1rem;
-    border-bottom: 1px solid #ddd;
+    background: var(--primary-blue);
 }
 
 .notification-dropdown li.unread {
-    background: #f9f9f9;
-}
-
-.notification-dropdown li.read {
-    opacity: 0.7;
-}
-
-.notification-dropdown p {
-    margin: 0;
-    font-size: 0.9rem;
-}
-
-.notification-dropdown small {
-    display: block;
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
-    color: #666;
-}
-/* Mark All as Read Button */
-.mark-all-read-form {
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid #ddd;
+    background: var(--light-blue);
 }
 
 .btn-mark-all-read {
-    width: 100%;
-    padding: 0.5rem;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.3s ease;
+    background: var(--primary-blue);
 }
 
 .btn-mark-all-read:hover {
-    background: #45a049;
+    background: var(--hover-blue);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+.fadeInDown {
+    animation-name: fadeInDown;
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
 }
     </style>
 </head>
@@ -148,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mark_all_read'])) {
                     <span class="notification-count"><?php echo count($notifications); ?></span>
                 <?php endif; ?>
             </div>
-            <a href="../../logout.php" class="btn-danger">Logout</a>
+            <a href="../logout.php" class="btn-danger">Logout</a>
         </nav>
 
         <!-- Notification Dropdown -->
