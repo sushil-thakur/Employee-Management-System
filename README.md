@@ -2,7 +2,7 @@
 
 The Employee Task Management System (ETMS) is a web-based platform designed to streamline task management for administrators and employees. Admins can manage employee records, assign tasks, and monitor progress. Employees can track their tasks, receive notifications, and update their task status.
 
-## System Roles
+## System Roles.
 - **Admin**: Manages employees, assigns tasks, and oversees the system.
 - **Employee**: Views tasks, notifications, and updates task status.
 
